@@ -48,7 +48,9 @@ npx cap sync
 * [`hasReceivedMemoryWarningInLastSession()`](#hasreceivedmemorywarninginlastsession)
 * [`hasCrashedInLastSession()`](#hascrashedinlastsession)
 * [`lastSessionCrashReport()`](#lastsessioncrashreport)
+* [`notifyUserConfirmation(...)`](#notifyuserconfirmation)
 * [Interfaces](#interfaces)
+* [Enums](#enums)
 
 </docgen-index>
 
@@ -146,6 +148,23 @@ Provides details about the crash that occurred in the last app session.
 --------------------
 
 
+### notifyUserConfirmation(...)
+
+```typescript
+notifyUserConfirmation(options: { userConfirmation: UserConfirmation; }) => Promise<void>
+```
+
+Notify AppCenter of the users confirmation
+
+| Param         | Type                                                                                 |
+| ------------- | ------------------------------------------------------------------------------------ |
+| **`options`** | <code>{ userConfirmation: <a href="#userconfirmation">UserConfirmation</a>; }</code> |
+
+**Since:** latest
+
+--------------------
+
+
 ### Interfaces
 
 
@@ -185,5 +204,17 @@ Provides details about the crash that occurred in the last app session.
 | **`carrierCountry`** | <code>string</code> | Carrier country code (for mobile devices).                                                                                            |
 | **`appBuild`**       | <code>string</code> | The app's build number, e.g. 42.                                                                                                      |
 | **`appNamespace`**   | <code>string</code> | The bundle identifier, package identifier, or namespace, depending on what the individual plattforms use, .e.g com.microsoft.example. |
+
+
+### Enums
+
+
+#### UserConfirmation
+
+| Members           | Value          |
+| ----------------- | -------------- |
+| **`DONT_SEND`**   | <code>0</code> |
+| **`SEND`**        | <code>1</code> |
+| **`ALWAYS_SEND`** | <code>2</code> |
 
 </docgen-api>
