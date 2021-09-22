@@ -60,5 +60,18 @@ public class CrashesPlugin: CAPPlugin {
             call.resolve(["value": report])
         }
     }
+    
+    @objc func notifyUserConfirmation(_ call: CAPPluginCall) {
+        do {
+            try implementation.notifyUserConfirmation(call.getInt("userConfirmation"))
+        } catch CrashesError.unknownUserConfirmationError(let userConfirmation) {
+            call.reject(String(format: "User confirmation value of %d not recognized", userConfirmation!))
+            return
+        } catch {
+            call.reject("Unexpected error: \(error)")
+            return
+        }
+        call.resolve()
+    }
 
 }
