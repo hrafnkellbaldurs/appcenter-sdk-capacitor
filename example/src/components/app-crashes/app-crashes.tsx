@@ -1,6 +1,6 @@
 import { Component, State, h } from '@stencil/core';
-import { modalController, ToggleChangeEventDetail } from '@ionic/core';
-import Crashes, { ErrorReport } from '@capacitor-community/appcenter-crashes';
+import { modalController, ToggleChangeEventDetail, SelectChangeEventDetail } from '@ionic/core';
+import Crashes, { ErrorReport, UserConfirmation } from '@capacitor-community/appcenter-crashes';
 
 import { ErrorReportItem } from './error-report-items-modal';
 
@@ -14,6 +14,7 @@ export class AppCrashes {
   @State() memoryWarning: boolean = false
   @State() hasCrashed: boolean = false
   @State() crashReport: ErrorReport
+  @State() userConfirmation?: UserConfirmation = null
 
   constructor() {
     this.toggleCrashes = this.toggleCrashes.bind(this);
@@ -62,6 +63,17 @@ export class AppCrashes {
     await modal.present();
   }
 
+  async notifyUserConfirmation(e: CustomEvent<SelectChangeEventDetail>) {
+    try {
+      const userConfirmation: UserConfirmation = parseInt(e.detail.value);
+      await Crashes.notifyUserConfirmation({ userConfirmation });
+      this.userConfirmation = userConfirmation;
+    } catch (error) {
+      this.userConfirmation = null;
+      console.error(error);
+    }
+  }
+
   render() {
     return [
       <ion-header>
@@ -80,6 +92,20 @@ export class AppCrashes {
           <ion-item>
             <ion-label>Enable Crashes</ion-label>
             <ion-toggle checked={this.enabled} onIonChange={e => this.toggleCrashes(e)} />
+          </ion-item>
+          <ion-item>
+            <ion-label>User confirmation</ion-label>
+            <ion-select
+              value={this.userConfirmation}
+              onIonChange={this.notifyUserConfirmation}
+              placeholder="Select.."
+              okText="Notify"
+            >
+              <ion-select-option value={UserConfirmation.DONT_SEND}>Dont send</ion-select-option>
+              <ion-select-option value={UserConfirmation.SEND}>Send</ion-select-option>
+              <ion-select-option value={UserConfirmation.ALWAYS_SEND}>Always send</ion-select-option>
+              <ion-select-option value={-1}>unknown value</ion-select-option>
+            </ion-select>
           </ion-item>
           <ion-item>
             <ion-label>Memory Warning</ion-label>
