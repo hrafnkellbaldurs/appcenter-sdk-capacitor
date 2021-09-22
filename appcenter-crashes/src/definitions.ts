@@ -208,8 +208,20 @@ export interface CrashesPlugin {
      * const { value: crashReport } = await Crashes.lastSessionCrashReport();
      */
     lastSessionCrashReport(): Promise<{value: ErrorReport}>;
+    
+    /**
+     * Notify AppCenter of the users confirmation
+     * @returns {Promise<void>}
+     * @since latest
+     * @example
+     * import Crashes from '@capacitor-community/appcenter-crashes';
+     *
+     * await Crashes.notifyUserConfirmation({ userConfirmation: UserConfirmation.DONT_SEND });
+     */
+    notifyUserConfirmation(options: {
+        userConfirmation: UserConfirmation;
+    }): Promise<void>;
 }
 
 // convert
-// export function notifyUserConfirmation(userConfirmation: UserConfirmation): void;
 // export function setListener(crashesListener: CrashesListener): Promise<void>;

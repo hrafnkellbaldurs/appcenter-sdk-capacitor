@@ -23,4 +23,7 @@ export class CrashesWeb
   setEnabled(): Promise<void> {
     throw this.unimplemented('Not supported on web.');
   }
+  notifyUserConfirmation(): Promise<void> {
+    throw this.unimplemented('Not supported on web.');
+  }
 }
