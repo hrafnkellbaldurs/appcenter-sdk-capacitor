@@ -67,5 +67,15 @@ public class CrashesPlugin extends Plugin {
         ret.put("value", lastSessionCrashReport);
         call.resolve(ret);
     }
-    
+
+    @PluginMethod
+    public void notifyUserConfirmation(PluginCall call) {
+        Integer userConfirmation = call.getInt("userConfirmation");
+        if (userConfirmation == null) {
+            call.reject("userConfirmation should be an integer, not null");
+            return;
+        }
+        implementation.notifyUserConfirmation(userConfirmation);
+        call.resolve();
+    }
 }

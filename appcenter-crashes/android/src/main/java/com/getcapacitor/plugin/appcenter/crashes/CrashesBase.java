@@ -5,6 +5,20 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.crashes.Crashes;
 
 public class CrashesBase {
+  /**
+   * Constant for DO NOT SEND crash report.
+   */
+  private static final int DONT_SEND = 0;
+
+  /**
+   * Constant for SEND crash report.
+   */
+  private static final int SEND = 1;
+
+  /**
+   * Constant for ALWAYS SEND crash reports.
+   */
+  private static final int ALWAYS_SEND = 2;
 
   public void enable(boolean enabled) {
     Crashes.setEnabled(enabled).get();
@@ -34,5 +48,27 @@ public class CrashesBase {
 
   public JSObject lastSessionCrashReport() {
     return CrashesUtil.convertReportToJs(Crashes.getLastSessionCrashReport().get());
+  }
+
+  public void notifyUserConfirmation(int userConfirmation) {
+    switch (userConfirmation) {
+      case DONT_SEND:
+        userConfirmation = Crashes.DONT_SEND;
+        break;
+
+      case SEND:
+        userConfirmation = Crashes.SEND;
+        break;
+
+      case ALWAYS_SEND:
+        userConfirmation = Crashes.ALWAYS_SEND;
+        break;
+
+      default:
+        CrashesUtil.logError("Invalid userConfirmation value.");
+        return;
+    }
+
+    Crashes.notifyUserConfirmation(userConfirmation);
   }
 }
