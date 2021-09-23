@@ -104,7 +104,6 @@ export class AppCrashes {
               <ion-select-option value={UserConfirmation.DONT_SEND}>Dont send</ion-select-option>
               <ion-select-option value={UserConfirmation.SEND}>Send</ion-select-option>
               <ion-select-option value={UserConfirmation.ALWAYS_SEND}>Always send</ion-select-option>
-              <ion-select-option value={-1}>unknown value</ion-select-option>
             </ion-select>
           </ion-item>
           <ion-item>

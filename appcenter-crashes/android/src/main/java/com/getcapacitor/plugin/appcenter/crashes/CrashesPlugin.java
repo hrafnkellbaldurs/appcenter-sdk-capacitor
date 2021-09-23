@@ -8,6 +8,8 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 
 import com.microsoft.appcenter.reactnative.shared.AppCenterReactNativeShared;
 
+import java.security.InvalidParameterException;
+
 @CapacitorPlugin(name = "Crashes")
 public class CrashesPlugin extends Plugin {
 
@@ -75,7 +77,15 @@ public class CrashesPlugin extends Plugin {
             call.reject("userConfirmation should be an integer, not null");
             return;
         }
-        implementation.notifyUserConfirmation(userConfirmation);
+        try {
+            implementation.notifyUserConfirmation(userConfirmation);
+        } catch (InvalidParameterException e) {
+            call.reject(e.getMessage());
+            return;
+        } catch (Exception e) {
+            call.reject("Unexpected error: " + e.getMessage());
+            return;
+        }
         call.resolve();
     }
 }

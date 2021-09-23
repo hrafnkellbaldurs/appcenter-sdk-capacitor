@@ -4,6 +4,8 @@ import com.getcapacitor.JSObject;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.crashes.Crashes;
 
+import java.security.InvalidParameterException;
+
 public class CrashesBase {
   /**
    * Constant for DO NOT SEND crash report.
@@ -50,7 +52,7 @@ public class CrashesBase {
     return CrashesUtil.convertReportToJs(Crashes.getLastSessionCrashReport().get());
   }
 
-  public void notifyUserConfirmation(int userConfirmation) {
+  public void notifyUserConfirmation(int userConfirmation) throws InvalidParameterException {
     switch (userConfirmation) {
       case DONT_SEND:
         userConfirmation = Crashes.DONT_SEND;
@@ -65,8 +67,7 @@ public class CrashesBase {
         break;
 
       default:
-        CrashesUtil.logError("Invalid userConfirmation value.");
-        return;
+        throw new InvalidParameterException("User confirmation value of " + userConfirmation + " not recognized");
     }
 
     Crashes.notifyUserConfirmation(userConfirmation);
